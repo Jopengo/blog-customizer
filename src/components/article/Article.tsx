@@ -13,7 +13,12 @@ export const Article = () => {
 				Портрет Западной Швейцарии
 			</Text>
 			<div className={styles.titleDescription}>
-				<Text size={22} weight={800} uppercase align='center' dynamicLite>
+				<Text
+					size={22}
+					weight={800}
+					uppercase={true}
+					align='center'
+					dynamicLite>
 					Примитивист Фиштр расписывает новый бюджетный авиалайнер
 				</Text>
 			</div>
