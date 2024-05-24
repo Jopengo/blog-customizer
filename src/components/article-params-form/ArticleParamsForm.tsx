@@ -35,7 +35,7 @@ export const ArticleParamsForm = ({
 	setContentWidth,
 }: ArticleParams) => {
 	const [isFormOpen, setIsFormOpen] = useState(false);
-	const divRef = useRef<HTMLDivElement>(null);
+	const divRef = useRef<HTMLDivElement | null>(null);
 
 	const [formState, setFormState] = useState(defaultArticleState);
 
@@ -54,8 +54,9 @@ export const ArticleParamsForm = ({
 	}
 
 	const handleResetForm = () => {
-		setFormState(defaultArticleState);
-		updatePageState(formState);
+		const resetState = defaultArticleState;
+		setFormState(resetState);
+		updatePageState(resetState);
 	};
 
 	const handleChange = (type: keyof ArticleStateType, value: OptionType) => {
@@ -106,7 +107,7 @@ export const ArticleParamsForm = ({
 								handleChange('fontFamilyOption', selectedOption);
 							}}
 							options={fontFamilyOptions}
-							title='шрифт'
+							title='Шрифт'
 						/>
 						<RadioGroup
 							selected={formState.fontSizeOption}
@@ -115,7 +116,7 @@ export const ArticleParamsForm = ({
 								handleChange('fontSizeOption', selectedOption)
 							}
 							options={fontSizeOptions}
-							title='Название радиогруппы'
+							title='Размер шрифта'
 						/>
 						<Select
 							selected={formState.fontColor}
