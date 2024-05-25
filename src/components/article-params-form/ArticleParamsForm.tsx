@@ -1,5 +1,3 @@
-import { ArrowButton } from 'components/arrow-button';
-import { Button } from 'components/button';
 import { useState, useRef } from 'react';
 import { Text } from '../text';
 import { Select } from '../select';
@@ -18,49 +16,32 @@ import styles from './ArticleParamsForm.module.scss';
 import { Separator } from '../separator';
 import clsx from 'clsx';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
+import { ArrowButton } from 'components/arrow-button';
+import { Button } from 'components/button';
 
-type ArticleParams = {
-	setFontFamily: (fontFamily: OptionType) => void;
-	setFontSize: (fontSize: OptionType) => void;
-	setFontColors: (fontColor: OptionType) => void;
-	setBackgroundColor: (fontColor: OptionType) => void;
-	setContentWidth: (fontColor: OptionType) => void;
+type ArticleParamsFormProps = {
+	onChange: (type: keyof ArticleStateType, value: OptionType) => void;
 };
 
-export const ArticleParamsForm = ({
-	setFontFamily,
-	setFontSize,
-	setFontColors,
-	setBackgroundColor,
-	setContentWidth,
-}: ArticleParams) => {
+export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const divRef = useRef<HTMLDivElement | null>(null);
-
 	const [formState, setFormState] = useState(defaultArticleState);
 
-	function updatePageState(formState: {
-		fontFamilyOption: OptionType;
-		fontColor: OptionType;
-		backgroundColor: OptionType;
-		contentWidth: OptionType;
-		fontSizeOption: OptionType;
-	}) {
-		setFontFamily(formState.fontFamilyOption);
-		setFontSize(formState.fontSizeOption);
-		setFontColors(formState.fontColor);
-		setBackgroundColor(formState.backgroundColor);
-		setContentWidth(formState.contentWidth);
-	}
-
 	const handleResetForm = () => {
-		const resetState = defaultArticleState;
-		setFormState(resetState);
-		updatePageState(resetState);
+		setFormState(defaultArticleState);
+		updatePageState(defaultArticleState);
+	};
+
+	const updatePageState = (formState: ArticleStateType) => {
+		onChange('fontFamilyOption', formState.fontFamilyOption);
+		onChange('fontSizeOption', formState.fontSizeOption);
+		onChange('fontColor', formState.fontColor);
+		onChange('backgroundColor', formState.backgroundColor);
+		onChange('contentWidth', formState.contentWidth);
 	};
 
 	const handleChange = (type: keyof ArticleStateType, value: OptionType) => {
-		console.log(type + ': ' + value);
 		setFormState({
 			...formState,
 			[type]: value,
@@ -74,10 +55,8 @@ export const ArticleParamsForm = ({
 	});
 
 	const toggleForm = () => {
-		setIsFormOpen((isFormOpen) => !isFormOpen);
+		setIsFormOpen((prev) => !prev);
 	};
-
-	console.log(formState.fontFamilyOption);
 
 	return (
 		<>
@@ -85,7 +64,7 @@ export const ArticleParamsForm = ({
 			<div ref={divRef}>
 				<aside
 					className={clsx(styles.container, {
-						[styles.container_open]: isFormOpen === true,
+						[styles.container_open]: isFormOpen,
 					})}>
 					<form
 						className={styles.form}
@@ -97,15 +76,15 @@ export const ArticleParamsForm = ({
 							size={31}
 							weight={800}
 							fontStyle='normal'
-							uppercase={true}
+							uppercase
 							family='open-sans'>
 							Задайте параметры
 						</Text>
 						<Select
 							selected={formState.fontFamilyOption}
-							onChange={(selectedOption) => {
-								handleChange('fontFamilyOption', selectedOption);
-							}}
+							onChange={(selectedOption) =>
+								handleChange('fontFamilyOption', selectedOption)
+							}
 							options={fontFamilyOptions}
 							title='Шрифт'
 						/>

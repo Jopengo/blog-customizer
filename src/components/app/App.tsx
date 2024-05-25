@@ -35,15 +35,7 @@ export const App = () => {
 					'--bg-color': articleStyles.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm
-				setFontFamily={(value) => handleStyleChange('fontFamilyOption', value)}
-				setFontSize={(value) => handleStyleChange('fontSizeOption', value)}
-				setFontColors={(value) => handleStyleChange('fontColor', value)}
-				setBackgroundColor={(value) =>
-					handleStyleChange('backgroundColor', value)
-				}
-				setContentWidth={(value) => handleStyleChange('contentWidth', value)}
-			/>
+			<ArticleParamsForm onChange={handleStyleChange} />
 			<Article />
 		</div>
 	);
