@@ -13,16 +13,6 @@ export const App = () => {
 	const [articleStyles, setArticleStyles] =
 		useState<ArticleStyle>(defaultArticleState);
 
-	const handleStyleChange = (
-		key: keyof ArticleStyle,
-		value: { value: string }
-	) => {
-		setArticleStyles((prevStyles) => ({
-			...prevStyles,
-			[key]: value,
-		}));
-	};
-
 	return (
 		<div
 			className={clsx(styles.main)}
@@ -35,7 +25,7 @@ export const App = () => {
 					'--bg-color': articleStyles.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm onChange={handleStyleChange} />
+			<ArticleParamsForm setArticleStyles={setArticleStyles} />
 			<Article />
 		</div>
 	);

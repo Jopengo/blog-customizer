@@ -17,18 +17,12 @@ export const ArrowButton = ({ isFormOpen, toggleForm }: ArrowButtonProps) => {
 			role='button'
 			aria-label='Открыть/Закрыть форму параметров статьи'
 			tabIndex={0}
-			className={clsx(styles.container, {
-				[styles.container]: isFormOpen === false,
-				[styles.container_open]: isFormOpen === true,
-			})}
+			className={clsx(styles.container, isFormOpen && styles.container_open)}
 			onClick={toggleForm}>
 			<img
 				src={arrow}
 				alt='иконка стрелочки'
-				className={clsx(styles.arrow, {
-					[styles.arrow]: isFormOpen === false,
-					[styles.arrow_open]: isFormOpen === true,
-				})}
+				className={clsx(styles.arrow, isFormOpen && styles.arrow_open)}
 			/>
 		</div>
 	);

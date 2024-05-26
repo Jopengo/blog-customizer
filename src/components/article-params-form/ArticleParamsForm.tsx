@@ -20,25 +20,19 @@ import { ArrowButton } from 'components/arrow-button';
 import { Button } from 'components/button';
 
 type ArticleParamsFormProps = {
-	onChange: (type: keyof ArticleStateType, value: OptionType) => void;
+	setArticleStyles: (styles: ArticleStateType) => void;
 };
 
-export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
+export const ArticleParamsForm = ({
+	setArticleStyles,
+}: ArticleParamsFormProps) => {
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const divRef = useRef<HTMLDivElement | null>(null);
 	const [formState, setFormState] = useState(defaultArticleState);
 
 	const handleResetForm = () => {
 		setFormState(defaultArticleState);
-		updatePageState(defaultArticleState);
-	};
-
-	const updatePageState = (formState: ArticleStateType) => {
-		onChange('fontFamilyOption', formState.fontFamilyOption);
-		onChange('fontSizeOption', formState.fontSizeOption);
-		onChange('fontColor', formState.fontColor);
-		onChange('backgroundColor', formState.backgroundColor);
-		onChange('contentWidth', formState.contentWidth);
+		setArticleStyles(defaultArticleState);
 	};
 
 	const handleChange = (type: keyof ArticleStateType, value: OptionType) => {
@@ -58,6 +52,11 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 		setIsFormOpen((prev) => !prev);
 	};
 
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		setArticleStyles(formState);
+	};
+
 	return (
 		<>
 			<ArrowButton isFormOpen={isFormOpen} toggleForm={toggleForm} />
@@ -66,12 +65,7 @@ export const ArticleParamsForm = ({ onChange }: ArticleParamsFormProps) => {
 					className={clsx(styles.container, {
 						[styles.container_open]: isFormOpen,
 					})}>
-					<form
-						className={styles.form}
-						onSubmit={(event) => {
-							event.preventDefault();
-							updatePageState(formState);
-						}}>
+					<form className={styles.form} onSubmit={handleSubmit}>
 						<Text
 							size={31}
 							weight={800}
